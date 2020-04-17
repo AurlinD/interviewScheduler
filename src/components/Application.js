@@ -41,14 +41,6 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       </section>
-      <li className="interviewers__item">
-        <img
-          className="interviewers__item-image"
-          src="https://i.imgur.com/LpaY82x.png"
-          alt="Sylvia Palmer"
-        />
-        Sylvia Palmer
-      </li>
 
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
