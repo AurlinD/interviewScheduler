@@ -5,14 +5,19 @@ import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
-import Button from "components/Button";
-import DayListItem from "components/DayListItem";
-import DayList from "components/DayList";
-import InterviewerListItem from "components/InterviewerListItem";
-import InterviewerList from "components/InterviewerList";
-import Appointment from "components/Appointments";
-import Header from "components/Appointments/Header";
-import Empty from "components/Appointments/Empty";
+import Button from "../src/components/Button";
+import DayListItem from "../src/components/DayListItem";
+import DayList from "../src/components/DayList";
+import InterviewerListItem from "../src/components/InterviewerListItem";
+import InterviewerList from "../src/components/InterviewerList";
+import Appointment from "../src/components/Appointments";
+import Header from "../src/components/Appointments/Header";
+import Empty from "../src/components/Appointments/Empty";
+import Show from "../src/components/Appointments/Show";
+import Confirm from "../src/components/Appointments/Confirm";
+import Status from "../src/components/Appointments/Status";
+import Error from "../src/components/Appointments/Error";
+import Form from "../src/components/Appointments/Form";
 
 storiesOf("Button", module)
   .addParameters({
@@ -136,4 +141,42 @@ storiesOf("Appointment", module)
   })
   .add("Appointment", () => <Appointment />)
   .add("Header", () => <Header time="12pm" />)
-  .add("Empty", () => <Empty onAdd={action("onAdd")} />);
+  .add("Empty", () => <Empty onAdd={action("onAdd")} />)
+  .add("Show", () => (
+    <Show
+      student="Aurlin Dhillon"
+      interviewer={interviewers}
+      onEdit={action("onEdit")}
+      onDelete={action("onDelete")}
+    />
+  ))
+  .add("Confirm", () => (
+    <Confirm
+      message="Delete this appointment?"
+      onConfirm={action("onConfirm")}
+      onDelete={action("onDelete")}
+    />
+  ))
+  .add("Status", () => <Status message="Deleting" />)
+  .add("Error", () => (
+    <Error
+      message="Could not delete appointment."
+      onClose={action("onClose")}
+    />
+  ))
+  .add("Form Edit", () => (
+    <Form
+      name="Aurlin Dhillon"
+      interviewers={interviewers}
+      interviewer={1}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ))
+  .add("Form New", () => (
+    <Form
+      interviewers={interviewers}
+      onSave={action("onSave")}
+      onCancel={action("onCancel")}
+    />
+  ));
