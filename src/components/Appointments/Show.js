@@ -15,13 +15,13 @@ export default function Show({ student, interviewer, onEdit, onDelete }) {
         <section className="appointment__actions">
           <img
             className="appointment__actions-button"
-            src="images/edit.png"
+            src="/images/edit.png"
             alt="Edit"
             onClick={onEdit}
           />
           <img
             className="appointment__actions-button"
-            src="images/trash.png"
+            src="/images/trash.png"
             alt="Delete"
             onClick={onDelete}
           />
