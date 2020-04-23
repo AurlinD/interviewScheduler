@@ -60,19 +60,15 @@ export default function Application(props) {
   useEffect(() => {
     Promise.all([axios.get("/api/days"), axios.get("/api/appointments")]).then(
       (value) => {
-        // console.log(value[0].data);
-        // console.log(value[1].data);
         setDays(value[0].data);
         setAppointments(value[1].data);
-        // setState({ ...state, appointments: value[1].data });
-        console.log(state);
       }
     );
   }, []);
   const appointments = getAppointmentsForDay(state, state.day);
 
+  // use spread when mapping
   const schedule = appointments.map((app) => {
-    console.log(app);
     return <Appointment key={app.id} {...app} />;
   });
   return (
