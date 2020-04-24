@@ -1,46 +1,10 @@
 import DayList from "./DayList.js";
 import React, { useState, useEffect } from "react";
-import getAppointmentsForDay from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
 import "components/Application.scss";
 import Appointment from "./Appointments/index";
 
 import axios from "axios";
-
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       },
-//     },
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//   },
-//   {
-//     id: 4,
-//     time: "4pm",
-//     interview: {
-//       student: "Aurlin Dhillon",
-//       interviewer: {
-//         id: 1,
-//         name: "Billy Bob",
-//         avatar: "https://i.imgur.com/Nmx0Qxo.png",
-//       },
-//     },
-//   },
-//   { id: 5, time: "5pm" },
-// ];
 
 export default function Application(props) {
   // const [day, setDay] = useState("Monday");
@@ -50,6 +14,7 @@ export default function Application(props) {
     day: "Monday",
     days: [],
     appointments: {},
+    interviewers: {},
   });
 
   const setDay = (day) => setState({ ...state, day });
@@ -57,19 +22,35 @@ export default function Application(props) {
   const setAppointments = (appointments) =>
     setState((prev) => ({ ...prev, appointments }));
 
+  const setInterviewers = (interviewers) =>
+    setState((prev) => ({ ...prev, interviewers }));
+
   useEffect(() => {
-    Promise.all([axios.get("/api/days"), axios.get("/api/appointments")]).then(
-      (value) => {
-        setDays(value[0].data);
-        setAppointments(value[1].data);
-      }
-    );
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
+    ]).then((value) => {
+      setDays(value[0].data);
+      setAppointments(value[1].data);
+      setInterviewers(value[2].data);
+    });
   }, []);
+
+  // you can use spread when mapping
   const appointments = getAppointmentsForDay(state, state.day);
 
-  // use spread when mapping
-  const schedule = appointments.map((app) => {
-    return <Appointment key={app.id} {...app} />;
+  const schedule = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
   });
   return (
     <main className="layout">
