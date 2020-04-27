@@ -24,7 +24,7 @@ export default function useVisualMode(initial) {
   }
 
   /**
-   * returns to the previous mode in the history
+   * returns to the previous mode in the history. Remove last item in stack.
    */
   function back() {
     if (history.length > 0) {

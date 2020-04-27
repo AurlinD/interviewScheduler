@@ -1,6 +1,10 @@
 import DayList from "./DayList.js";
 import React, { useState, useEffect } from "react";
-import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "../helpers/selectors";
 import "components/Application.scss";
 import Appointment from "./Appointments/index";
 
@@ -39,6 +43,7 @@ export default function Application(props) {
 
   // you can use spread when mapping
   const appointments = getAppointmentsForDay(state, state.day);
+  const interviewers = getInterviewersForDay(state, state.day);
 
   const schedule = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -49,6 +54,7 @@ export default function Application(props) {
         id={appointment.id}
         time={appointment.time}
         interview={interview}
+        interviewers={interviewers}
       />
     );
   });

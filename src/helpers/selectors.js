@@ -13,11 +13,31 @@ export function getAppointmentsForDay(state, day) {
           result.push(state.appointments[appointment]);
       }
     }
-
-    return result;
-  } else {
-    return result;
   }
+  return result;
+}
+
+/**
+ * takes in the state and a specific day and returns
+ * a specific array of interviewers for that day
+ */
+export function getInterviewersForDay(state, day) {
+  const result = [];
+  let days = state.days.filter((specificDay) => specificDay.name === day);
+
+  if (days[0]) {
+    const interviewersForDays = days[0].interviewers;
+
+    for (const interviewer of interviewersForDays) {
+      for (const id in state.interviewers) {
+        if (interviewer === Number(id)) {
+          result.push(state.interviewers[interviewer]);
+        }
+      }
+    }
+  }
+
+  return result;
 }
 
 // must use FOR.... IN for objects
