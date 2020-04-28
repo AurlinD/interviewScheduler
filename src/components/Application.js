@@ -25,21 +25,22 @@ export default function Application(props) {
   const setDays = (days) => setState((prev) => ({ ...prev, days }));
   const setAppointments = (appointments) =>
     setState((prev) => ({ ...prev, appointments }));
-
   const setInterviewers = (interviewers) =>
     setState((prev) => ({ ...prev, interviewers }));
 
-  useEffect(() => {
-    Promise.all([
-      axios.get("/api/days"),
-      axios.get("/api/appointments"),
-      axios.get("/api/interviewers"),
-    ]).then((value) => {
-      setDays(value[0].data);
-      setAppointments(value[1].data);
-      setInterviewers(value[2].data);
-    });
-  }, []);
+  const bookInterview = (id, interview) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    return axios
+      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .then(setAppointments(appointments));
+  };
 
   // you can use spread when mapping
   const appointments = getAppointmentsForDay(state, state.day);
@@ -55,9 +56,21 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
+  useEffect(() => {
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers"),
+    ]).then((value) => {
+      setDays(value[0].data);
+      setAppointments(value[1].data);
+      setInterviewers(value[2].data);
+    });
+  }, []);
   return (
     <main className="layout">
       <section className="sidebar">

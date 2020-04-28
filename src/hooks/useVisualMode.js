@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 /**
  * this function takes in an initial state,
