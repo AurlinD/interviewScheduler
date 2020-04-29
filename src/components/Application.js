@@ -14,6 +14,13 @@ export default function Application(props) {
   // const [day, setDay] = useState("Monday");
   // const [days, setDays] = useState([]);
 
+  // const {
+  //   state,
+  //   setDay,
+  //   bookInterview,
+  //   cancelInterview
+  // } = useApplicationData();
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -42,6 +49,20 @@ export default function Application(props) {
       .then(setAppointments(appointments));
   };
 
+  const cancelInterview = (id) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    return axios
+      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(setAppointments(appointments));
+  };
+
   // you can use spread when mapping
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
@@ -57,6 +78,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
