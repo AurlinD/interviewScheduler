@@ -13,10 +13,10 @@ Interview scheduler allows users to book meetings with interviewers on any given
 
 
 ## Final Product
-!["Main"](docs/main.png)
+!["main"](docs/default.png)
 !["edit"](docs/edit.png)
 !["delete"](docs/delete.png)
-!["main1"](docs/main1.png)
+!["main1"](docs/default.png)
 
 
 ## Getting Started
